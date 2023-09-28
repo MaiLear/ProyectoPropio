@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan&family=Roboto:ital,wght@0,500;1,500&family=Rubik:wght@500&display=swap');
+*{
+    margin: 0%;
+    padding: 0%
+}
+.main-menu{
+min-width: 100%;
+max-height: 80px;
+background-color:   whitesmoke;
+box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+display:flex;
+align-items: center;
+justify-content: space-between;
+
+}
+
+.main-menu__logo{
+padding-bottom: 15px;
+padding: 15px 75px;
+}
+
+.main-menu__list{
+list-style: none;
+padding-right: 75px;
+justify-self: end;
+}
+.main-menu-list__item{
+display: inline-block;
+padding-right: 30px;
+position: relative;
+}
+
+.main-menu-list__link{
+text-decoration: none;
+color: black;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-menu-list__link::after{
+content: '';
+display: none;
+width: 30%;
+height: 2px;
+background-color: green;
+position: absolute;
+bottom: -5px;
+
+}
+.main-menu-list__link:hover{
+color: green;
+}
+.main-menu-list__link:hover::after{
+display: block;
+}
+
+.page-content{
+width: 100%;
+display: flex;
+justify-content: space-around;
+margin: 50px 0px;
+
+}
+.page-content-img{
+max-width: 25%;
+object-fit: cover;
+}
+.page-content-texts{
+align-self: center;
+}
+
+.page-content-texts__title--small{
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+color: #3c3c3c;
+}
+.page-content-texts__title{
+font-size:50px;
+font-family: 'Rubik', sans-serif;
+}
+
+.page-content-texts__paragraph{
+color: #b5b2b2;
+}
+
+.page-content-texts__btn{
+font-size: 16px;
+font-weight: bold;
+color: white;
+padding: 20px;
+border-radius: 5px;
+background-color: #a427b8;
+border: none;
+
+
+}
+
+.page-content-texts__title--green{
+color: green;
+}
+
+/*Styles shop*/
+/*******************************************/
+/*******************************************/
+/*******************************************/
+.conteiner-shop{
+    width: 100%;
+    margin: 0px 20px;
+}
+
+.conteiner-shop__title{
+    font-size: 45px;
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+    padding: 8px 0px;
+}
+.conteiner-shop__title--light{
+    font-size: 12px;
+    color: #b5b2b2;
+}
+
+.conteiner-shop-products{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+}
+
+.conteiner-shop-products-cards{
+    border-radius: 40%;
+}
+.conteiner-shop-products-cards__data{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+.conteiner-shop-products-cards__data--green{
+    color: green;
+}
+.conteiner-shop-products-cards__icon{
+    border-radius: 50%;
+    background-color: lightgreen;
+}
+
+
+.conteiner-shop-products{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(4, minmax(100px, 200px));
+    gap: 12px;
+    padding: 15px 0;
+}
+/*Fin Shop styles*/
+/*******************************************/
+/*******************************************/
+/*******************************************/
