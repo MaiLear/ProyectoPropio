@@ -17,19 +17,14 @@ class AdminController extends Controller
         return view('admin.admin_index');
     }
 
-    public function create()
-    {
-        return view('admin.admin_register');
-    }
-
     public function store(Request $request){
             $credentials = $request->validate([
                 'email' => ['required', 'email'],
                 'password' => ['required', 'min:8'],
                 'image' => ['required','image']
             ]);
-            $imagenes = $request->file('image')->store('public/images');
-            $urlImage = Storage::url($imagenes);
+            $images = $request->file('image')->store('public/images');
+            $urlImage = Storage::url($images);
             $hashPassword = Hash::make($credentials['password']);
             $url = env('URL_SERVER_API');
             $response = Http::post($url.'/admins',[
@@ -43,6 +38,7 @@ class AdminController extends Controller
             // return redirect(route('admin.create'))->with('data',$data);
             return view('admin.admin_register', compact('data'));
     }
+
 
     public function show(){
     }
@@ -78,10 +74,12 @@ class AdminController extends Controller
             return view('admin.admin_login');
         }
     }
-    public function login(){
+    public function loginCreate(){
         return view('admin.admin_login');
     }
-    public function register(){
+    public function registerCreate(){
         return view('admin.admin_register');
     }
+
+   
 }
