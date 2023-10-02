@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->double('unit_price', 6,2);
+            $table->double('unit_price');
             $table->string('img');
             $table->integer('stock');
             $table->timestamps();

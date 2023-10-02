@@ -1,8 +1,9 @@
 @props(['dataProducts'])
 
-<table>
+<table class="container-principal-table">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Price</th>
             <th>Stock</th>
@@ -10,8 +11,6 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            {{$dataProducts}}
-        </tr>
+        {{$slot}}
     </tbody>
 </table>
