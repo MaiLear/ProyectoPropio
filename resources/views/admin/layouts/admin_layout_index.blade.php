@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="{{asset('css/admin/principal-page.css')}}">
 
 <nav class="container-menu-top">
-    <div class="container-menu-top-widgetsearch">
+    <!-- <div class="container-menu-top-widgetsearch">
         <input type="text" name="search-widget" class="container-menu-top-widgetsearch__input" placeholder="Search">
         <img class="container-menu-top-widgetsearch__icon" src="{{asset('img/lupa.png')}}">
-    </div>
+    </div> -->
     <div class="container-menu-top-user">
         <div class="container-menu-top-user-info">
             <p class="container-menu-top-user-info__text">Nombre del usuario</p>
@@ -33,5 +33,6 @@
 <main class="container-principal">
     @yield('body')
 </main>
+<script src="{{asset('js/main.js')}}"></script>
 </body>
 </html>

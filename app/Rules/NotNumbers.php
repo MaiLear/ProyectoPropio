@@ -13,8 +13,8 @@ class NotNumbers implements ValidationRule
      */
     public function validate(string $name, mixed $value, Closure $fail): void
     {
-        if (!is_numeric($value)){
-            $fail($name.'is invalid');
+        if (is_numeric($value)){
+            $fail($name.''.'is invalid');
         }
     }
 }

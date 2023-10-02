@@ -12,8 +12,8 @@ class ProductController extends Controller
 {
     public function productsCreate()
     {
-        $url= env('URL_SERVER_API');
-        $values=Http::get($url.'/products');
+        $url = env('URL_SERVER_API');
+        $values = Http::get($url . '/products');
         $data = $values->json();
         return view('admin.products', compact('data'));
     }
@@ -25,7 +25,7 @@ class ProductController extends Controller
             'name' => ['string', 'required'],
             'unit_price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric'],
-            'img'  => ['required', 'image']
+            'img'  => ['required', 'image', 'max:200']
         ]);
         $imgs = $request->file('img')->store('public/images');
         $urlImage = Storage::url($imgs);
@@ -36,36 +36,52 @@ class ProductController extends Controller
             'stock' => $credentials['stock'],
             'img' => $urlImage
         ]);
-        // return redirect(route('admin.products'))->with('data', $response);
-        return view('admin.products', compact('response'));
+        $msg = $response['msg'];
+        return to_route('admin.products')->with('msg', $msg);
     }
 
-    public function productsEdit(Product $product, Request $request)
+    public function productView($idProduct)
     {
+
+        $url = env('URL_SERVER_API');
+        $response = Http::get($url . "/products/{$idProduct}");
+        return view('admin.edit_products', compact('response'));
+    }
+
+    public function productsEdit($idProduct, Request $request)
+    {
+        if($request->img !== null){
+            $images = $request->file('img')->store('public/images');
+            $urlImage = Storage::url($images);
+        }
+
+        $url = env('URL_SERVER_API');
         $credentials = $request->validate([
-            'name' => ['required', new NotNumbers],
-            'unit_price' => ['required', 'numeric'],
-            'stock' => ['required', 'numeric'],
-            'img'  => ['required', 'image']
+            'name' => [new NotNumbers],
+            'unit_price' => ['numeric'],
+            'stock' => ['numeric'],
+            'img'  => ['image']
         ]);
-        $images = $request->file('img')->store('public/images');
-        $urlImage = Storage::url($images);
-        $url = env('URL_SERVER_API');
-        $response = Http::put($url . "/products/{$product}", [
-            'name' => $request->name,
-            'unit_price' => $request->unit_price,
-            'stock' => $request->unit_price,
-            'img' => $urlImage
+        $response = Http::put($url . "/products/{$idProduct}", [
+            'name' => $credentials['name'],
+            'unit_price' => $credentials['unit_price'],
+            'stock' => $credentials['stock'],
+            'img' => $urlImage ?? ''
         ]);
-        return redirect(route('admin.products'))->with('data', $response);
+        $msg = $response['msg'];
+        return to_route('admin.products')->with('msg', $msg);
     }
 
-    public function productsDelete(Product $product)
+    public function productsDelete($idProduct)
     {
         $url = env('URL_SERVER_API');
+        $response = Http::delete($url . "/products/{$idProduct}");
+        $msg = $response['msg'];
+        return to_route('admin.products')->with('msg', $msg);
+    }
 
-        $response = Http::delete($url . "/products/{$product}");
-        // $data = $response->json();
-        return redirect(route('admin.products'))->with('data', $response);
+    public function querysProducst(Request $request){
+        $products = Product::orderBy('id', 'ASC')->scopeValues($request->value);
+        return to_route('admin.products')->with('products', $products);
     }
 }

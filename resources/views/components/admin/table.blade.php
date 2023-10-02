@@ -1,5 +1,6 @@
 @props(['dataProducts'])
 
+
 <table class="container-principal-table">
     <thead>
         <tr>
@@ -8,6 +9,7 @@
             <th>Price</th>
             <th>Stock</th>
             <th>Image</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
