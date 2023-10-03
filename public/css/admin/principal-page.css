@@ -22,24 +22,42 @@ body {
     border-radius: 5px;
 }
 
-.container-menu-top-widgetsearch__icon {
-    position: absolute;
-    transform: translateX(-41px);
+.container-menu-top-widgetsearch__btn{
+    width: 40px;
+    height: 40px;
 }
 
+.container-menu-top-widgetsearch__icon {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
+.container-menu-top-user{
+    margin-right: 45px;
+}
+
+
+
 .container-menu-top-user-info {
+    width: 100px;
     border: solid 0.5px gray;
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     gap: 10px;
     align-items: center;
     background-color: aliceblue;
-    padding: 10px;
+    padding: 5px;
+     position: relative;
 }
 
+
+
 .container-menu-top-user-info-image {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-color: red;
     border-radius: 50%;
     background-image: url("/img/user.png");
@@ -47,8 +65,33 @@ body {
     background-size: 100% 100%;
 }
 
+
 .container-menu-top-user-info__text {
     margin: 0%;
+    font-size: 12px;
+}
+
+.container-menu-top-user-info__icon{
+    position: absolute;
+    bottom: 10%;
+    right: 5%;
+}
+
+.container-menu-top-select{
+    position: absolute;
+    right: 0;
+    top: 130px;
+    right: 45px;
+    display: none;
+}
+
+.container-menu-top-select--active{
+    display: block;
+}
+.container-menu-top-user-info__link {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
 }
 
 /*Menu lateral*/

@@ -9,7 +9,11 @@
             <th>Price</th>
             <th>Stock</th>
             <th>Image</th>
-            <th></th>
+            <th>
+                <button>
+                    <a href="{{ route('admin.products.create') }}">Create</a>
+                </button>
+            </th>
         </tr>
     </thead>
     <tbody>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Rules\NotNumbers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,12 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function productsCreate()
+    public function productsIndex(Request $request)
     {
         $url = env('URL_SERVER_API');
-        $values = Http::get($url . '/products');
+        $values = Http::get($url . '/products',[
+            'value' =>  $request->search
+        ]);
         $data = $values->json();
         return view('admin.products', compact('data'));
+    }
+
+    public function productsCreate(){
+        return view('admin.create_products');
     }
 
 
@@ -37,7 +42,7 @@ class ProductController extends Controller
             'img' => $urlImage
         ]);
         $msg = $response['msg'];
-        return to_route('admin.products')->with('msg', $msg);
+        return to_route('admin.products.create')->with('msg', $msg);
     }
 
     public function productView($idProduct)
@@ -50,7 +55,7 @@ class ProductController extends Controller
 
     public function productsEdit($idProduct, Request $request)
     {
-        if($request->img !== null){
+        if ($request->img !== null) {
             $images = $request->file('img')->store('public/images');
             $urlImage = Storage::url($images);
         }
@@ -69,7 +74,7 @@ class ProductController extends Controller
             'img' => $urlImage ?? ''
         ]);
         $msg = $response['msg'];
-        return to_route('admin.products')->with('msg', $msg);
+        return to_route('admin.products.create')->with('msg', $msg);
     }
 
     public function productsDelete($idProduct)
@@ -77,11 +82,6 @@ class ProductController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::delete($url . "/products/{$idProduct}");
         $msg = $response['msg'];
-        return to_route('admin.products')->with('msg', $msg);
-    }
-
-    public function querysProducst(Request $request){
-        $products = Product::orderBy('id', 'ASC')->scopeValues($request->value);
-        return to_route('admin.products')->with('products', $products);
+        return to_route('admin.products.create')->with('msg', $msg);
     }
 }
