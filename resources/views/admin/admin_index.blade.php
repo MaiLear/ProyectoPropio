@@ -2,6 +2,9 @@
 
 @section('title', 'principal')
 
+
 @section('body')
+
+{{$userAdmin ?? ''}}
 
 @endsection

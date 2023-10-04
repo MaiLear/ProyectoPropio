@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use SebastianBergmann\CodeUnit\FunctionUnit;
 use Illuminate\Support\Facades\Http;
 
 class CustomerController extends Controller
 {
-    public function index(){
-
+    public function indexCustomer(Request $request){
+        $url = env('URL_SERVER_API');
+        $response = Http::get($url.'/customers',[
+            'value' => $request->search
+        ]);
+        $dataCustomer = $response->json();
+        return view('admin.customer', compact('dataCustomer'));
     }
 
     public function create(){
@@ -36,12 +39,23 @@ class CustomerController extends Controller
         return view('customer.customer_register', compact('data'));
     }
 
-    public function update(Customer $customer, Request $request ){
-        $customer->first_name = $request->first_name;
-        $customer->second_name = $request->second_name;
-        $customer->email = $request->email;
-        $customer->password = $request->password;
-        $customer->save();
+    public function update(Request $request, $idCustomer){
+        $credentials = $request->validate([
+            'first_name' => ['string'],
+            'second_name' => ['string'],
+            'last_name' => ['string'],
+            'email' => ['email'],
+            'password' => ['password','min:8'],
+        ]);
+        $url = env('URL_SERVER_API');
+        $response = Http::put($url."customers/{$idCustomer}",[
+             'first_name' => $request->first_name,
+             'second_name' => $request->second_name,
+             'email' => $request->email,
+             'password' => $request->password,
+        ]);
+        $data = $response->json();
+        return to_route('admin.customer.index')->with('data', $data);
     }
 
     public function authenticate(Request $request){
@@ -51,11 +65,20 @@ class CustomerController extends Controller
         ]);
         if(Auth::guard('customer')->attempt($credentials)){
             $request->session()->regenerate();
-            return view('index');
+            $usuario = Auth::user();
+            return view('index', compact('usuario'));
         }
         else{
             return view('customer.customer_login');
         }
+    }
+
+    public function customersDelete($idCustomer){
+        $url = env('URL_SERVER_API');
+        $response = Http::delete($url."/customers/$idCustomer");
+        $data = $response->json();
+        $msg = $data['msg'];
+        return to_route('admin.customer.index')->with('msg', $msg);
     }
 
     public function show(){

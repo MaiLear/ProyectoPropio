@@ -16,7 +16,7 @@
     <div class="container-menu-top-user">
         <div class="container-menu-top-user-info">
             <div class="container-menu-top-user-info-image"></div>
-                <h4 class="container-menu-top-user-info__text">Nombre del usuario</h4>
+                <h4 class="container-menu-top-user-info__text">{{$userAdmin}}</h4>
                 <img class="container-menu-top-user-info__icon" src="{{asset('img/lupa.png')}}">
         </div>
     </div>
@@ -26,6 +26,9 @@
         </div>
         <div class="container-menu-top-user-info">
             <a href="" class="container-menu-top-user-info__link">Contact us</a>
+        </div>
+        <div class="container-menu-top-user-info">
+            <a href="{{route('admin.logout')}}" class="container-menu-top-user-info__link">Logout</a>
         </div>
     </div>
 </nav>
@@ -39,7 +42,7 @@
         <ul class="lateral-menu-options">
             <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.index')}}">Index</a></li>
             <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.products.index')}}">Products</a></li>
-            <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="">Customers</a></li>
+            <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.customer.index')}}">Customers</a></li>
         </ul>
     </div>
 <main class="container-principal">

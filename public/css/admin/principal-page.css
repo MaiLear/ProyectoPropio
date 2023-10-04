@@ -194,3 +194,7 @@ body {
     border: solid 1px;
     margin-bottom: 50px;
 }
+
+.inactive{
+    display: none;
+}
