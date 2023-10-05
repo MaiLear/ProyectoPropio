@@ -85,7 +85,10 @@ class CustomerController extends Controller
     }
 
     public function shop(){
-        return view('shop');
+        $url = env('URL_SERVER_API');
+        $response = Http::get($url.'/products');
+        $data = $response->json();
+        return view('shop', compact('data'));
     }
 
     public function login(){

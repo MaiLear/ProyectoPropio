@@ -32,7 +32,7 @@ class AdminController extends Controller
             'first_name' => $request->first_name,
             'second_name' => $request->second_name,
             'email' => $credentials['email'],
-            'image' => $urlImage,
+            'img' => $urlImage,
             'password' => $hashPassword
         ]);
         $data = $response->json();

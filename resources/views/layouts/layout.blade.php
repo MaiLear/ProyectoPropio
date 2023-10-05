@@ -10,7 +10,7 @@
     <nav class="main-menu">
         <picture>
          <source srcset="{{asset('img/1-removebg-preview-small-105w.png')}}" media="(max-width:1500px)">
-         <img class="main-menu__logo" src="{{asset('img/1-removebg-preview-500w.png')}}">
+         <img class="main-menu__logo" src="{{asset('img/logoImg')}}">
         </picture>
          <ul class="main-menu__list">
              <li class="main-menu-list__item"><a href="#" class="main-menu-list__link">Home</a></li>
@@ -79,6 +79,6 @@
         </div>
         </div>
         </footer>
-    <script src="{{asset('js/main.js') }}"></script> 
+    <script src="{{asset('js/shop.js') }}"></script> 
 </body>
 </html>
