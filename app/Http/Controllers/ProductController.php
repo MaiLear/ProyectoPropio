@@ -15,8 +15,9 @@ class ProductController extends Controller
         $values = Http::get($url . '/products',[
             'value' =>  $request->search
         ]);
-        $data = $values->json();
-        return view('admin.products', compact('data'));
+        $data = $values['products'];
+        $newProducts = $values['newProducts'];
+        return view('admin.products', compact('data', 'newProducts'));
     }
 
     public function productsCreate(){
@@ -28,8 +29,10 @@ class ProductController extends Controller
     {
         $credentials = $request->validate([
             'name' => ['string', 'required'],
+            'brand' => ['required', 'string'],
             'unit_price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric'],
+            'category' => ['required'],
             'img'  => ['required', 'image', 'max:200']
         ]);
         $imgs = $request->file('img')->store('public/images');
@@ -37,8 +40,11 @@ class ProductController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::post($url . '/products', [
             'name' => $credentials['name'],
+            'brand' => $credentials['brand'],
             'unit_price' => $credentials['unit_price'],
             'stock' => $credentials['stock'],
+            'category' => $credentials['category'],
+            'new_product' => $request->new_product,
             'img' => $urlImage
         ]);
         $msg = $response['msg'];
@@ -49,8 +55,10 @@ class ProductController extends Controller
     {
 
         $url = env('URL_SERVER_API');
-        $response = Http::get($url . "/products/{$idProduct}");
-        return view('admin.edit_products', compact('response'));
+        $response = Http::get($url ."/products/{$idProduct}");
+        $productsResponse = $response['product'];
+        $nameCategory = $response['category']['name'] ?? null;
+        return view('admin.edit_products', compact('productsResponse', 'nameCategory'));
     }
 
     public function productsEdit($idProduct, Request $request)
@@ -65,12 +73,14 @@ class ProductController extends Controller
             'name' => [new NotNumbers],
             'unit_price' => ['numeric'],
             'stock' => ['numeric'],
+            'category' => ['string'],
             'img'  => ['image']
         ]);
         $response = Http::put($url . "/products/{$idProduct}", [
             'name' => $credentials['name'],
             'unit_price' => $credentials['unit_price'],
             'stock' => $credentials['stock'],
+            'category' => $credentials['category'],
             'img' => $urlImage ?? ''
         ]);
         $msg = $response['msg'];

@@ -13,11 +13,15 @@ let products = JSON.parse(document
     .getAttribute("data-products"));
 
 
+let newProducts = JSON.parse(document
+    .querySelector(".conteiner-shop-products").getAttribute("data-news"));
+
+
 let cardsFragment = new DocumentFragment();
  
 document.addEventListener('DOMContentLoaded', function(){
     uploadProductsCard(products, containershopProducts);//Carga las primeras tarjetas
-    uploadProductsCard(products, containerNewProducts);
+    uploadProductsCard(newProducts, containerNewProducts);
    
 })
 
@@ -27,6 +31,9 @@ async function  uploadProductsCard(data, container) {
         templateContainerCards.querySelector(
             ".conteiner-shop-products-cards__data"
         ).textContent = element["name"];
+        templateContainerCards.querySelector(
+            ".conteiner-shop__title--light"
+        ).textContent = element["brand"];
         templateContainerCards.querySelector(
             ".conteiner-shop-products-cards__data--green"
         ).textContent = '$'+element["unit_price"];

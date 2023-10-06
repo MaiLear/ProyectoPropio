@@ -175,6 +175,14 @@ body {
     font-weight: bold;
 }
 
+.container-principal-form__text--small{
+    font-size: 12px;
+}
+
+.container-principal-form--inactive{
+    display: none;
+}
+
 .container-principal-form__items {
     padding: 10px;
     border-radius: 5px;

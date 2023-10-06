@@ -4,7 +4,7 @@
 
 @section('body')
 
-<x-admin.form   :response=$response  title="Update" valor="'admin.products.put'">
+<x-admin.form  :response=$productsResponse :nameCategory=$nameCategory title="Update" classInactive="container-principal-form--inactive">
     
 </x-admin.form>
 

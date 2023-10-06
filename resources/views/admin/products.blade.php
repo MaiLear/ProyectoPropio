@@ -11,8 +11,11 @@
     <tr>
         <td>{{$product['id'] ?? ''}}</td>
         <td>{{$product['name'] ?? ''}}</td>
+        <td>{{$product['brand'] ?? ''}}</td>
         <td>{{$product['unit_price'] ?? ''}}</td>
         <td>{{$product['stock'] ?? ''}}</td>
+        <td>{{$product['categories_id'] ?? ''}}</td>
+        <td>{{$product['new_product'] ?? ''}}</td>
         <td><img src="{{asset($product['img'] ?? '')}}"></td>
         <td>
             <button>
