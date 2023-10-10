@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminRequest;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +18,16 @@ class AdminController extends Controller
         return view('admin.admin_index');
     }
 
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
-            'image' => ['required', 'image']
-        ]);
         $images = $request->file('image')->store('public/images');
         $urlImage = Storage::url($images);
-        $hashPassword = Hash::make($credentials['password']);
+        $hashPassword = Hash::make($request->password);
         $url = env('URL_SERVER_API');
         $response = Http::post($url . '/admins', [
             'first_name' => $request->first_name,
             'second_name' => $request->second_name,
-            'email' => $credentials['email'],
+            'email' => $request->email,
             'img' => $urlImage,
             'password' => $hashPassword
         ]);
@@ -45,7 +41,7 @@ class AdminController extends Controller
     {
     }
 
-    public function update(Request $request, Admin $admin)
+    public function update(AdminRequest $request, Admin $admin)
     {
         $hashPassword = Hash::make($request->password);
         $url = env('URL_SERVER_API');
@@ -61,20 +57,14 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
     }
-    public function authenticate(Request $request)
+    public function authenticate(AdminRequest $request)
     {
-        //Impongo unas reglas a los datos que obtengo
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
-        ]);
         //Para utilizar Auth::attempt($valor) con un modelo diferene a User
         //  debe crear un guardia en la carpeta App\Config\auth.php
-        if (Auth::guard('admin')->attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($request->toArray())) {
             $request->session()->regenerate();
             $admin = auth('admin')->user();
-            Auth::login($admin);
-            // return $admin;
+            // Auth::login($admin);
             return to_route('admin.index');
         } else {
             return view('admin.admin_login');

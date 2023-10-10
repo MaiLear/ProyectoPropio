@@ -15,12 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class);
-Route::get('/shop', [CustomerController::class, 'shop']);
+Route::get('/', HomeController::class)->name('home');
+Route::get('/shop', [CustomerController::class, 'shop'])->name('customer.shop');
 
 Route::get('/login', [CustomerController::class, 'login'])->name('login');
 Route::post('/login', [CustomerController::class, 'authenticate'])->name('login.authenticate');
 Route::get('/register', [CustomerController::class, 'register'])->name('register');
 Route::post('register', [CustomerController::class, 'store'])->name('register.store');
-
-

@@ -20,7 +20,7 @@
         <form action="{{route('login.authenticate')}}" method="POST" class="container-login-form">
             @csrf
             <label class="container-login__label" for="email">Email</label>
-            <input class="container-login-form__input" type="email"  name="email" placeholder="Enter your email" required >
+            <input class="container-login-form__input" type="email"  name="email" placeholder="Enter your email" required value="{{old('email')}}">
             <label class="container-login__label" for="password">Password</label>
             <input class="container-login-form__input" type="password" id=password-login name="password" placeholder="Enter your password" required>
             <div class="container-login-form-password">
