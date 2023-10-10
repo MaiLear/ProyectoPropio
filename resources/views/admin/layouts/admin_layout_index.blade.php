@@ -41,7 +41,7 @@
         </div>
         <ul class="lateral-menu-options">
             <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.index')}}">Index</a></li>
-            <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.products.index')}}">Products</a></li>
+            <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('products.index')}}">Products</a></li>
             <li class="lateral-menu-options__items"><a class="lateral-menu-options__links" href="{{route('admin.customer.index')}}">Customers</a></li>
         </ul>
     </div>

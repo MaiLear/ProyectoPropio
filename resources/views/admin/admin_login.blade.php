@@ -4,7 +4,7 @@
 @section('body')
 <div class="login">
     <h1 class="login__title">Login</h1>
-    <form action="{{route('admin.authenticate')}}" method="POST" class="login-form">
+    <form action="{{route('admin.login.authenticate')}}" method="POST" class="login-form">
         @csrf
         <label class="login__label" for="email">Email</label>
         <input class="login-form__input" type="email" name="email" placeholder="Enter your email" required value="{{old('email')}}">

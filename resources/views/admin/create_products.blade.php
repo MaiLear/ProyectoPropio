@@ -4,7 +4,7 @@
 
 @section('body')
 
-<x-admin.form title="Create product">
+<x-admin.form title="Create product" action="{{route('products.store')}}">
     @if (session('msg'))
     <h2 class="container-principal-form__response register__message">{{ session('msg')}}</h2>
     @endif

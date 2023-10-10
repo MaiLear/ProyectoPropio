@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function productsIndex(Request $request)
+    public function index(Request $request)
     {
         $url = env('URL_SERVER_API');
         $values = Http::get($url . '/products', [
@@ -19,14 +19,8 @@ class ProductController extends Controller
         $newProducts = $values['newProducts'];
         return view('admin.products', compact('data', 'newProducts'));
     }
-
-    public function productsCreate()
-    {
-        return view('admin.create_products');
-    }
-
-
-    public function productsStore(ProductRequest $request)
+    
+    public function store(ProductRequest $request)
     {
         $imgs = $request->file('img')->store('public/images');
         $urlImage = Storage::url($imgs);
@@ -37,14 +31,22 @@ class ProductController extends Controller
             'unit_price' => $request->unit_price,
             'stock' => $request->stock,
             'category' => $request->category,
-            'new_product' => $request->new_product,
+            'new_product' => $request->new_product ? true : false,
             'img' => $urlImage
         ]);
         $msg = $response['msg'];
-        return to_route('admin.products.create')->with('msg', $msg);
+        return to_route('products.create')->with('msg', $msg);
     }
 
-    public function productView($idProduct)
+
+    public function create()
+    {
+        return view('admin.create_products');
+    }
+
+
+
+    public function edit($idProduct)
     {
 
         $url = env('URL_SERVER_API');
@@ -54,7 +56,7 @@ class ProductController extends Controller
         return view('admin.edit_products', compact('productsResponse', 'nameCategory'));
     }
 
-    public function productsEdit($idProduct, ProductRequest $request)
+    public function update($idProduct, ProductRequest $request)
     {
         if ($request->img !== null) {
             $images = $request->file('img')->store('public/images');
@@ -72,7 +74,7 @@ class ProductController extends Controller
         return to_route('admin.products.create')->with('msg', $msg);
     }
 
-    public function productsDelete($idProduct)
+    public function destroy($idProduct)
     {
         $url = env('URL_SERVER_API');
         $response = Http::delete($url . "/products/{$idProduct}");

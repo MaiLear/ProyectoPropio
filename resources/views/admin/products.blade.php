@@ -19,10 +19,10 @@
         <td><img src="{{asset($product['img'] ?? '')}}"></td>
         <td>
             <button>
-                <a href="{{ route('admin.products.delete', $product['id']) }}">Delete</a>
+                <a href="{{ route('products.destroy', $product['id']) }}">Delete</a>
             </button>
             <button>
-                <a href="{{ route('admin.products.view', $product['id']) }}">Edit</a>
+                <a href="{{ route('products.edit', $product['id']) }}">Edit</a>
             </button>
         </td>
     </tr>

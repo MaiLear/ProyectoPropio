@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\StoreRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,10 +25,13 @@ class CustomerController extends Controller
     {
     }
 
-    public function store(CustomerRequest $request)
+    public function store(StoreRequest $request)
     {
 
         $hashPassword = Hash::make($request->password);
+        $request->validate([
+            'last_name'=> ['string', 'min:3']
+        ]);
         $url = env('URL_SERVER_API');
         $response = Http::post($url . '/customers', [
             'first_name' => $request->first_name,

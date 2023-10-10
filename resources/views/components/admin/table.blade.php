@@ -14,7 +14,7 @@
             <th>Image</th>
             <th class="{{$btnCreateActive}}">
                 <button>
-                    <a href="{{ route('admin.products.create') }}">Create</a>
+                    <a href="{{ route('products.create') }}">Create</a>
                 </button>
             </th>
         </tr>
