@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 
 class CustomerController extends Controller
 {
-    public function indexCustomer(Request $request)
+    public function index(Request $request)
     {
         $url = env('URL_SERVER_API');
         $response = Http::get($url . '/customers', [
@@ -20,11 +20,14 @@ class CustomerController extends Controller
         $dataCustomer = $response->json();
         return view('admin.customer', compact('dataCustomer'));
     }
-
+    
     public function create()
     {
+        return view('customer.customer_register');
     }
 
+
+    
     public function store(StoreRequest $request)
     {
 
@@ -40,10 +43,16 @@ class CustomerController extends Controller
             'email' => $request->email,
             'password' =>  $hashPassword
         ]);
-        $data = $response->json();
-        return view('customer.customer_register', compact('data'));
+        $msg= $response['msg'];
+        return to_route('customer.create')->with('msg',$msg);
     }
 
+    public function show()
+    {
+    }
+
+
+    
     public function update(Request $request, $idCustomer)
     {
         $url = env('URL_SERVER_API');
@@ -59,7 +68,7 @@ class CustomerController extends Controller
 
     public function authenticate(CustomerRequest $request)
     {
-        if (Auth::guard('customer')->attempt($request->toArray())) {
+        if (Auth::guard('customer')->attempt($request->only(['email', 'password']))) {
             $request->session()->regenerate();
             $usuario = Auth::user();
             return view('index', compact('usuario'));
@@ -68,19 +77,19 @@ class CustomerController extends Controller
         }
     }
 
-    public function customersDelete($idCustomer)
+
+        public function lostPassword(){
+            
+        }
+
+    public function destroy($idCustomer)
     {
         $url = env('URL_SERVER_API');
-        $response = Http::delete($url . "/customers/$idCustomer");
-        $data = $response->json();
-        $msg = $data['msg'];
-        return to_route('admin.customer.index')->with('msg', $msg);
+        $response = Http::delete($url ."/customers/{$idCustomer}");
+        $msg = $response['msg'];
+        return to_route('customer.index')->with('msg', $msg);
     }
-
-    public function show()
-    {
-    }
-
+    
     public function shop()
     {
         $url = env('URL_SERVER_API');
@@ -93,10 +102,5 @@ class CustomerController extends Controller
     public function login()
     {
         return view('customer.customer_login');
-    }
-
-    public function register()
-    {
-        return view('customer.customer_register');
     }
 }

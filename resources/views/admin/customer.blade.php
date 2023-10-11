@@ -5,7 +5,7 @@
 
 @section('body')
 
-<x-admin.table  btnCreateActive="inactive">
+<x-admin.table btnCreateActive="inactive">
     @if (count($dataCustomer)> 0)
     @foreach($dataCustomer as $customer)
     <tr>
@@ -16,7 +16,7 @@
         <td>{{$customer['email'] ?? ''}}</td>
         <td>
             <button>
-                <a href="{{ route('admin.customers.delete', $customer['id']) }}">Delete</a>
+                <a href="{{ route('customer.destroy', $customer['id']) }}">Delete</a>
             </button>
         </td>
     </tr>

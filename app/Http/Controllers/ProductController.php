@@ -46,7 +46,7 @@ class ProductController extends Controller
 
 
 
-    public function edit($idProduct)
+    public function show($idProduct)
     {
 
         $url = env('URL_SERVER_API');
@@ -71,7 +71,7 @@ class ProductController extends Controller
             'img' => $urlImage ?? ''
         ]);
         $msg = $response['msg'];
-        return to_route('admin.products.create')->with('msg', $msg);
+        return to_route('products.create')->with('msg', $msg);
     }
 
     public function destroy($idProduct)
@@ -79,6 +79,6 @@ class ProductController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::delete($url . "/products/{$idProduct}");
         $msg = $response['msg'];
-        return to_route('admin.products.create')->with('msg', $msg);
+        return to_route('products.create')->with('msg', $msg);
     }
 }

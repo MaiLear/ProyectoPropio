@@ -19,23 +19,16 @@ class AdminController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $request->validate([
-            'image' => ['required', 'image']
-        ]);
-        $images = $request->file('image')->store('public/images');
-        $urlImage = Storage::url($images);
         $hashPassword = Hash::make($request->password);
         $url = env('URL_SERVER_API');
         $response = Http::post($url . '/admins', [
             'first_name' => $request->first_name,
             'second_name' => $request->second_name,
             'email' => $request->email,
-            'img' => $urlImage,
             'password' => $hashPassword
         ]);
-        $data = $response->json();
-        // return redirect(route('admin.create'))->with('data',$data);
-        return view('admin.admin_register', compact('data'));
+        $msg= $response['msg'];
+        return to_route('admin.create')->with('msg',$msg);
     }
 
 

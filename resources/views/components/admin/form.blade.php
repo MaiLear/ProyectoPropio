@@ -1,9 +1,9 @@
-@props(['title', 'metodo'=>'', 'response'=>'', 'nameCategory' ,'classInactive', 'action'])
+@props(['title', 'valueMethod'=>'', 'response'=>'', 'nameCategory' ,'classInactive', 'valueAction'])
 
 <h1 class="title-products">{{$title}}</h1>
-<form class="container-principal-form" action="{{$action}}"  method="post" enctype="multipart/form-data">
+<form class="container-principal-form" action="{{$valueAction}}"  method="post" enctype="multipart/form-data">
     @csrf
-    @method({{$metodo}})
+    @method($valueMethod)
     {{$slot}}
     <label class="container-principal-form__label">Name
         <input class="container-principal-form__items" type="text" name="name" required placeholder="Ingrese el nombre del producto" value="{{$response['name'] ?? ''}}">

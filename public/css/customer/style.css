@@ -8,11 +8,8 @@
     display: flex;
     flex-direction: column;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 100px;
 }
-.container__logo{
-    align-self: flex-start;
-}
-
 
 .container-login{
     align-self: center;
@@ -69,13 +66,17 @@
     align-self: center;
 }
 
+
+
 /*Style register*/
-.content{
+/************************/
+/************************/
+.container-register{
     margin: 30px;
     display: flex;
     justify-content: space-around;
 }
-.content-img{
+.container-register-img{
     width: 400px;
     height: 350px;
     background-image: url('/img/quedarse-en-casa.png');
@@ -83,25 +84,25 @@
     align-self: center;
 }
 
-.content-form{
+.container-register-form{
     display: grid;
     grid-template-columns: repeat(2, minmax(100px, 200px));
     font-family: Helvetica;
     gap: 50px;
 }
 
-.content-form__title{
+.container-register-form__title{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 44px;
     grid-column: 1/3;
 }
 
-.content-form__response{
+.container-register-form__response{
     grid-column: 1/3;
     color: green;
 }
 
-.content-form__input{
+.container-register-form__input{
     width: 220px;
     padding: 12px;
     border: none;
@@ -110,7 +111,7 @@
 }
 
 
-.content-form__input--purple{
+.container-register-form__input--purple{
     background-color: #a427b8;
     color: white;
     border-radius:45px;
@@ -120,23 +121,23 @@
     padding: 20px;
 }
 
-.content-form-errors{
+.container-register-form-errors{
     text-decoration: none;
 }
 
-.content-form-errors__items{
+.container-register-form-errors__items{
     color: red;
     font-size: 18px;
 }
-.content-form__input::placeholder{
+.container-register-form__input::placeholder{
     font-size: 14px;
 }
 
-.content-form__input:active{
+.container-register-form__input:active{
     border-bottom: 0.5px solid;
 }
 
-.content-form__link{
+.container-register-form__link{
     width: 100px;
     padding: 10px;
     text-align: center;
@@ -149,4 +150,6 @@
     background-color: #b1bc00;
 
 }
-
+/*******************************************/
+/*******************************************/
+/*******************************************/

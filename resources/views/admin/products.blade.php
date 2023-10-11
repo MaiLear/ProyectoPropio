@@ -22,7 +22,7 @@
                 <a href="{{ route('products.destroy', $product['id']) }}">Delete</a>
             </button>
             <button>
-                <a href="{{ route('products.edit', $product['id']) }}">Edit</a>
+                <a href="{{ route('products.show', $product['id']) }}">Edit</a>
             </button>
         </td>
     </tr>
