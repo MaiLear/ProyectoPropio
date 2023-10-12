@@ -1,9 +1,9 @@
-@props(['routeForm','routeRegister', 'titleLogin'])
+@props(['routeForm','routeRegister', 'titleLogin', 'routeForgotPassword'=>''])
 <div class="container-login">
     <h1 class="container-login__title">{{$titleLogin}}</h1>
     <form action="{{ $routeForm }}" method="POST" class="container-login-form">
         @csrf
-        <label class="container-login__label" for="email">Email</label>
+        <label class="container-login__label">Email</label>
         <input class="container-login-form__input" type="email" name="email" placeholder="Enter your email" required value="{{old('email')}}">
         <label class="container-login__label" for="password">Password</label>
         <input class="container-login-form__input" type="password" id=password-login name="password" placeholder="Enter your password" required>
@@ -21,7 +21,7 @@
         </ul>
         @endif
 
-        <a class="container-login-form__link" href="#">Lost your passoword?</a>
+        <a class="container-login-form__link" href="{{$routeForgotPassword}}">Lost your passoword?</a>
         <a class="container-login-form__link" href="{{ $routeRegister }}">Don't have an account? <b>Register</b> </a>
     </form>
 </div>

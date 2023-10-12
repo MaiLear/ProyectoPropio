@@ -2,19 +2,11 @@
 
 @section('title', 'container-login')
 
-@section('customer_layout__styles')
-<style>
-    body{
-    height: 100vh;
-    background: url('/img/pexels-simon-berger-1323550.jpg');
-    background-size: 100% 100%;
-    background-position: center;
-    }
-    </style>
+@section('style')
+<link rel="stylesheet" href="{{asset('css/customer/style.css')}}">
 @endsection
 
 @section('body')
-<main class="container">
-       <x-formLogin routeForm="{{route('customer.authenticate')}}" routeRegister="{{route('customer.create')}}" titleLogin="Trendy"/> 
-</main>
+<x-formLogin routeForm="{{route('customer.authenticate')}}" routeRegister="{{route('customer.create')}}" titleLogin="Trendy"  routeForgotPassword="{{route('customer.forgotpassword')}}"/>
+
 @endsection

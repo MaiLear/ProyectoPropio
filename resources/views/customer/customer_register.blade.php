@@ -1,6 +1,10 @@
 @extends('layouts.customer_layout')
 @section('title', 'Register')
 
+@section('style')
+<link rel="stylesheet" href="{{asset('css/customer/register.css')}}">
+@endsection
+
 @section('body')
 <x-formRegister routeLogin="{{route('customer.login')}}" routeSaveData="{{route('customer.store')}}">
     <x-slot name="divImage">

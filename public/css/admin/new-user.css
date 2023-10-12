@@ -4,7 +4,6 @@
 }
 body{
     height: 100vh;
-    justify-items: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +16,10 @@ body{
 
 /*Styles container-login*/
 /*************************************/
+
+.logo{
+    align-self: flex-start;
+}
 
 .container-login{
     background: transparent;
@@ -35,7 +38,6 @@ body{
 .container-login-form{
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 30px 40px;
 
 }
@@ -88,9 +90,6 @@ body{
 
 /*Styles container-register*/
 
-.logo{
-    align-self: flex-start;
-}
 
 .container-register{
     background: transparent;

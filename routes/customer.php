@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Mail\ResetPasswordMailable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,20 @@ Route::get('/shop', [CustomerController::class, 'shop'])->name('customer.shop');
 Route::get('/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/login', [CustomerController::class, 'authenticate'])->name('customer.authenticate');
 
-Route::post('/lostpassword', [CustomerController::class, 'lostPassword'])->name('customer.lostpassword');
+
+
+Route::get('/forgot', function(){
+    Mail::to('mairotavista@gmail.com')->send(new ResetPasswordMailable);
+    return 'Enviado';
+});
+
+Route::get('/forgot-password', [CustomerController::class, 'forgotPassword'])->name('customer.forgotpassword');
+
+Route::post('/forgot-password', [CustomerController::class, 'forgotPasswordPost'])->name('customer.forgotpasswordPost');
+
+Route::get('/reset-password/{token}', [CustomerController::class, 'resetPassword'])->name('customer.resetpassword');
+
+Route::post('/reset-password', [CustomerController::class, 'resetPasswordPost'])->name('customer.resetpasswordpost');
 
 Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
 Route::post('/create', [CustomerController::class, 'store'])->name('customer.store');
