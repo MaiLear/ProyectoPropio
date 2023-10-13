@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('unit_price');
             $table->string('img');
             $table->integer('stock');
+            $table->boolean('status')->default(true);
             $table->boolean('new_product')->default(false);
             $table->timestamps();
         });

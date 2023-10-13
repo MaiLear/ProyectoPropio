@@ -149,7 +149,6 @@ body {
 
 .container-principal {
     width: 80%;
-    height: 83.8vh;
     float: right;
     display: flex;
     flex-direction: column;
@@ -201,6 +200,19 @@ body {
 .container-principal-table {
     border: solid 1px;
     margin-bottom: 50px;
+    margin: 50px 0px;
+    max-height: 500px;
+}
+.container-principal-table__th{
+ font-size: 22px;
+ padding-left: 20px;
+ border-bottom: solid 0.5px black;
+ background-color: whitesmoke;
+}
+
+.container-principal-table__td{
+padding-left: 20px;
+
 }
 
 .inactive{

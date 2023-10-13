@@ -16,6 +16,7 @@ class ProductController extends Controller
             'value' =>  $request->search
         ]);
         $data = $values['products'];
+        // dd($data);
         $newProducts = $values['newProducts'];
         return view('admin.products', compact('data', 'newProducts'));
     }
@@ -80,5 +81,18 @@ class ProductController extends Controller
         $response = Http::delete($url . "/products/{$idProduct}");
         $msg = $response['msg'];
         return to_route('products.create')->with('msg', $msg);
+    }
+
+    public function active($idProduct){
+        $url=env('URL_SERVER_API');
+        $response = Http::get($url."/products/active/{$idProduct}");
+        $msg = $response['msg'];
+        return to_route('products.index')->with('msg', $msg);
+    }
+
+    public function inactive($idProduct){
+        $url = env('URL_SERVER_API');
+        $response= Http::get($url."/products/status/{$idProduct}");
+        return to_route('products.index');
     }
 }
