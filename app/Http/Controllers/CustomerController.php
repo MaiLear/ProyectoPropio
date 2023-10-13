@@ -25,20 +25,20 @@ class CustomerController extends Controller
         $dataCustomer = $response->json();
         return view('admin.customer', compact('dataCustomer'));
     }
-    
+
     public function create()
     {
         return view('customer.customer_register');
     }
 
 
-    
+
     public function store(StoreRequest $request)
     {
 
         $hashPassword = Hash::make($request->password);
         $request->validate([
-            'last_name'=> ['string', 'min:3']
+            'last_name' => ['string', 'min:3']
         ]);
         $url = env('URL_SERVER_API');
         $response = Http::post($url . '/customers', [
@@ -48,8 +48,8 @@ class CustomerController extends Controller
             'email' => $request->email,
             'password' =>  $hashPassword
         ]);
-        $msg= $response['msg'];
-        return to_route('customer.create')->with('msg',$msg);
+        $msg = $response['msg'];
+        return to_route('customer.create')->with('msg', $msg);
     }
 
     public function show()
@@ -57,7 +57,7 @@ class CustomerController extends Controller
     }
 
 
-    
+
     public function update(Request $request, $idCustomer)
     {
         $url = env('URL_SERVER_API');
@@ -83,64 +83,68 @@ class CustomerController extends Controller
     }
 
 
-        public function forgotPassword(){
-            return view('forgot_password');
+    public function forgotPassword()
+    {
+        return view('forgot_password');
+    }
+
+    public function forgotPasswordPost(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:customers']
+        ]);
+        $token = Str::random(64);
+
+        DB::table('password_resets')->insert([
+            'email'  => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::send('emails.reset_password_email', ['token' => $token, 'route' => 'customer.resetpassword'], function ($message) use ($request) {
+            $message->from($request->email);
+            $message->subject("Reset Password");
+            $message->to("santi@gmail.com");
+        });
+        return to_route('customer.forgotpassword')->with('msg', 'Send successfull');
+    }
+
+    public function resetPassword($token)
+    {
+        return view('reset_password', compact('token'));
+    }
+
+    public function resetPasswordPost(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email', 'exists:customers'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required']
+        ]);
+
+        $updatePassword = DB::table('password_resets')->where([
+            'email' => $request->email,
+            'token' => $request->token,
+        ])->first();
+
+        if (!$updatePassword) {
+            return to_route('customer.resetpassword')->with('msg', 'Invalid');
         }
+        Customer::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
 
-        public function forgotPasswordPost(Request $request){
-            $request->validate([
-                'email'=> ['required','email','exists:customers']
-            ]);
-            $token = Str::random(64);
+        DB::table('password_resets')->where('email', $request->email)->delete();
 
-            DB::table('password_resets')->insert([
-                'email'  => $request->email,
-                'token' => $token,
-                'created_at' => Carbon::now()
-            ]);
-
-            Mail::send('emails.reset_password_email', ['token'=>$token],function($message) use ($request){
-                $message->from($request->email);
-                $message->subject("Reset Password");
-                $message->to("santi@gmail.com");
-            });
-            return to_route('customer.forgotpassword')->with('msg', 'Send successfull');
-        }
-
-        public function resetPassword($token){
-            return view('reset_password', compact('token'));
-        }
-
-        public function resetPasswordPost(Request $request){
-            $request->validate([
-                'email' => ['required', 'email', 'exists:customers'],
-                'password' => ['required','string','min:8', 'confirmed'],
-                'password_confirmation' => ['required']
-            ]);
-
-            $updatePassword = DB::table('password_resets')->where([
-                'email' =>$request->email,
-                'token' => $request->token,
-            ])->first();
-
-            if(!$updatePassword){
-                return to_route('customer.resetpassword')->with('msg', 'Invalid');
-            }
-            Customer::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-
-            DB::table('password_resets')->where('email', $request->email)->delete();
-
-            return to_route('customer.login')->with('msg', 'Sucess - password reset success');  
-        }
+        return to_route('customer.login')->with('msg', 'Sucess - password reset success');
+    }
 
     public function destroy($idCustomer)
     {
         $url = env('URL_SERVER_API');
-        $response = Http::delete($url ."/customers/{$idCustomer}");
+        $response = Http::delete($url . "/customers/{$idCustomer}");
         $msg = $response['msg'];
         return to_route('customer.index')->with('msg', $msg);
     }
-    
+
     public function shop()
     {
         $url = env('URL_SERVER_API');

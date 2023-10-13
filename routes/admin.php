@@ -15,6 +15,14 @@ Route::get('/admin/customer', [CustomerController::class, 'index'])->name('custo
 
 Route::get('/admin/customer/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
 
+Route::get('/admin/forgot-password', [CustomerController::class, 'forgotPassword'])->name('admin.forgotpassword');
+
+Route::post('/admin/forgot-password', [CustomerController::class, 'forgotPasswordPost'])->name('admin.forgotpasswordPost');
+
+Route::get('/admin/reset-password/{token}', [CustomerController::class, 'resetPassword'])->name('admin.resetpassword');
+
+Route::post('/admin/reset-password', [CustomerController::class, 'resetPasswordPost'])->name('admin.resetpasswordpost');
+
 Route::resource('admin', AdminController::class);
 
 

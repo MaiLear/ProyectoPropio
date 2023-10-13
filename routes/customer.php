@@ -25,11 +25,6 @@ Route::post('/login', [CustomerController::class, 'authenticate'])->name('custom
 
 
 
-Route::get('/forgot', function(){
-    Mail::to('mairotavista@gmail.com')->send(new ResetPasswordMailable);
-    return 'Enviado';
-});
-
 Route::get('/forgot-password', [CustomerController::class, 'forgotPassword'])->name('customer.forgotpassword');
 
 Route::post('/forgot-password', [CustomerController::class, 'forgotPasswordPost'])->name('customer.forgotpasswordPost');
@@ -39,4 +34,5 @@ Route::get('/reset-password/{token}', [CustomerController::class, 'resetPassword
 Route::post('/reset-password', [CustomerController::class, 'resetPasswordPost'])->name('customer.resetpasswordpost');
 
 Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
+
 Route::post('/create', [CustomerController::class, 'store'])->name('customer.store');

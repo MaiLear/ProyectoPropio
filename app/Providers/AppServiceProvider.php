@@ -21,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $adminPro = Auth::guard('admin')->user();
-        View::share('userAdmin', 'hola');
+        View::composer('*', function ($view) {
+            $view->with('userAdmin', auth('admin')->user());
+        });
     }
 }

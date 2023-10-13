@@ -1,4 +1,4 @@
-@props(['routeForm','routeRegister', 'titleLogin', 'routeForgotPassword'=>''])
+@props(['routeForm','routeRegister', 'titleLogin', 'routeForgotPassword'])
 <div class="container-login">
     <h1 class="container-login__title">{{$titleLogin}}</h1>
     <form action="{{ $routeForm }}" method="POST" class="container-login-form">
