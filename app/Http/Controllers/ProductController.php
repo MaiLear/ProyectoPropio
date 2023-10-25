@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,11 +18,12 @@ class ProductController extends Controller
             'value' =>  $request->search
         ]);
         $data = $values['products'];
-        // dd($data);
         $newProducts = $values['newProducts'];
+        $data = $this->paginate($data, 2);
+        $data->withPath('/products');
         return view('admin.products', compact('data', 'newProducts'));
     }
-    
+
     public function store(ProductRequest $request)
     {
         $imgs = $request->file('img')->store('public/images');
@@ -83,16 +86,29 @@ class ProductController extends Controller
         return to_route('products.create')->with('msg', $msg);
     }
 
-    public function active($idProduct){
-        $url=env('URL_SERVER_API');
-        $response = Http::get($url."/products/active/{$idProduct}");
+    public function active($idProduct)
+    {
+        $url = env('URL_SERVER_API');
+        $response = Http::get($url . "/products/active/{$idProduct}");
         $msg = $response['msg'];
         return to_route('products.index')->with('msg', $msg);
     }
 
-    public function inactive($idProduct){
+    public function inactive($idProduct)
+    {
         $url = env('URL_SERVER_API');
-        $response= Http::get($url."/products/status/{$idProduct}");
+        $response = Http::get($url . "/products/status/{$idProduct}");
         return to_route('products.index');
+    }
+
+
+    public function paginate($items, $perPage = 4, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $total = count($items);
+        $currentPage = $page;
+        $offset = ($currentPage * $perPage) - $perPage;
+        $itemsToShow = array_slice($items, $offset, $perPage);
+        return new LengthAwarePaginator($itemsToShow, $total, $perPage);
     }
 }

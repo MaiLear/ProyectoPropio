@@ -71,3 +71,14 @@
         </div>
     </div>
 </template>
+
+<template id="template-order-cart">
+<div class="card-body">
+                    <img class="template-order-cart__img" src="">
+                    <div class="template-order-cart__textcontent">
+                        <h6 class="template-order-cart__name">Vero eum qui</h6>
+                        <span class="template-order-cart__quantity">cantidad</span>
+                        <h5 class="template-order-cart_price">Us$ 99.99</h5>
+                    </div>
+                </div>
+</template>
