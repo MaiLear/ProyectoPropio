@@ -150,6 +150,7 @@ class CustomerController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::get($url . '/products');
         $data = $response['products'];
+        $data = $data["data"];
         $newProducts = $response['newProducts'];
         return view('shop', compact('data', 'newProducts'));
     }
