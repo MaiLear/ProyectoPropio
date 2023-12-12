@@ -111,4 +111,10 @@ class ProductController extends Controller
         $itemsToShow = array_slice($items, $offset, $perPage);
         return new LengthAwarePaginator($itemsToShow, $total, $perPage);
     }
+
+    public function cart()
+    {
+        
+        return view('shop_cart');
+    }
 }

@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/products/delete/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
+Route::get('/shop/cart', [ProductController::class, 'cart'])->name('customer.cart');
+
+
 Route::get('/products/status/{product}', [ProductController::class, 'inactive'])->name('products.inactive');
 
 Route::get('/products/active/{product}', [ProductController::class, 'active'])->name('products.active');

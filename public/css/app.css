@@ -12,7 +12,7 @@
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .main-menu__logo {
@@ -22,8 +22,6 @@
 
 .main-menu__list {
     list-style: none;
-    padding-right: 75px;
-    justify-self: end;
 }
 .main-menu-list__item {
     display: inline-block;

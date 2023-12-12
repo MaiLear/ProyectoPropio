@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detailsale', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('preventas', function (Blueprint $table) {
+            $table->id();
             $table->integer('quantity');
-            $table->double('total_price');
             $table->double('sub_total');
-            $table->unsignedBigInteger('sale_id');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('sale_id')->references('id')->on('sales');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('sale_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detailsale');
+        Schema::dropIfExists('preventa');
     }
 };
