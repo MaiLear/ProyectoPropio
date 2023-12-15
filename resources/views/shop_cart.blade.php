@@ -32,7 +32,6 @@
                     <div class="d-grid">
                         <a id="buy__btn" class="btn btn-info mt-5 my-auto btn-lg" href="{{route('customer.login')}}">Comprar</a>
                     </div>
-
                 </div>
             </div>
         </div>

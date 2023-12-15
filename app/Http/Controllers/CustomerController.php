@@ -76,6 +76,11 @@ class CustomerController extends Controller
         if (Auth::guard('customer')->attempt($request->only(['email', 'password']))) {
             $request->session()->regenerate();
             $usuario = Auth::user();
+            $url = env("URL_SERVER_API");
+            Http::post($url."/cart/store",[
+                "cart" => $request->dataCart,
+                "email" => $request->email
+            ]);
             return view('index', compact('usuario'));
         } else {
             return view('customer.customer_login');

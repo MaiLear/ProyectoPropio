@@ -1,15 +1,13 @@
 import { showProduct } from "../helperShop.js";
 
 let templateCart = document.getElementById("template-cart").content;
-let cardShoppingViewCart = document.getElementById("container-products-cart");
+let containerViewCart = document.getElementById("container-products-cart");
 
 let storeCart = JSON.parse(localStorage.getItem("cart"));
 
 // console.log(storeCart);
 
-async function saveProductsSelected() {
-    fetch("");
-}
+
 
 document.addEventListener("click", (e) => {
     if (e.target.matches("#quantity-increment__btn")) {
@@ -17,7 +15,7 @@ document.addEventListener("click", (e) => {
 
         storeCart[productId].cantidad += 1;
         localStorage.setItem("cart", JSON.stringify(storeCart));
-        showProduct(storeCart, templateCart, cardShoppingViewCart);
+        showProduct(storeCart, templateCart, containerViewCart);
         console.log(storeCart);
     }
     if (e.target.matches("#quantity-decrement__btn")) {
@@ -25,12 +23,12 @@ document.addEventListener("click", (e) => {
 
         storeCart[productId].cantidad -= 1;
         localStorage.setItem("cart", JSON.stringify(storeCart));
-        showProduct(storeCart, templateCart, cardShoppingViewCart);
+        showProduct(storeCart, templateCart, containerViewCart);
     }
 
-    if (e.target.matches("#buy__btn")) {
-        localStorage.clear();
-    }
+    // if (e.target.matches("#buy__btn")) {
+    //     localStorage.clear();
+    // }
 });
 
-showProduct(storeCart, templateCart, cardShoppingViewCart);
+showProduct(storeCart, templateCart, containerViewCart);

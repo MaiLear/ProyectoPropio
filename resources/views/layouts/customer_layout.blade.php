@@ -13,7 +13,7 @@
     @yield('customer_layout__styles')
     <img class="logo" src="{{asset('img/logoImg.png')}}">
     @yield('body')
-    <script src='{{asset('js/login.js')}}'></script>  
-    <script src='{{asset('js/main.js')}}'></script>  
+    <script src='{{asset('js/customer/login.js')}}'></script>  
+    {{-- <script src='{{asset('js/main.js')}}'></script>   --}}
 </body>
 </html>
