@@ -9,9 +9,13 @@ Route::get('/admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 
 Route::post('/admin/login', [AdminAuthController::class, 'authenticate'])->name('admin.authenticate');
 
-Route::get('/admin/logout',[AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-Route::get('/admin/customer', [CustomerController::class, 'index'])->name('customer.index');
+Route::get('/admin/customer', [CustomerController::class, 'index'])->name('admin.customer.index')->middleware('auth.admin');
+
+Route::get('/admin/filtercustomer', [CustomerController::class, 'getFilterCustomer'])->name('admin.customer.filter')->middleware('auth.admin');
+
+Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products')->middleware('auth.admin');
 
 Route::get('/admin/customer/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
 
@@ -24,6 +28,3 @@ Route::get('/admin/reset-password/{token}', [CustomerController::class, 'resetPa
 Route::post('/admin/reset-password', [CustomerController::class, 'resetPasswordPost'])->name('admin.resetpasswordpost');
 
 Route::resource('admin', AdminController::class);
-
-
-

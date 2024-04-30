@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('preventas', function (Blueprint $table) {
+        Schema::create('presales', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->double('sub_total');
+            $table->integer('price');
             $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('sale_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

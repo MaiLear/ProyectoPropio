@@ -3,6 +3,9 @@
 
 @section('body')
 
+<div class="me-5" style="float: right">
+    <a id="buy__btn" class="btn btn-info mt-5 my-auto btn-lg" href="{{route('customer.login')}}">Comprar</a>
+</div>
 <div id="container-products-cart" class="container">
 
 </div>
@@ -29,9 +32,6 @@
                         <button id="quantity-decrement__btn" class="btn btn-danger">-</button>
                     </div>
                     <br>
-                    <div class="d-grid">
-                        <a id="buy__btn" class="btn btn-info mt-5 my-auto btn-lg" href="{{route('customer.login')}}">Comprar</a>
-                    </div>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
-@props(['routeForm','routeRegister', 'titleLogin', 'routeForgotPassword','dataCart' => ''])
+@props(['routeForm','routeRegister', 'titleLogin', 'routeForgotPassword','dataCart' => '','id'=> ''])
 <div class="container-login">
     <h1 class="container-login__title">{{$titleLogin}}</h1>
-    <form action="{{ $routeForm }}" method="POST" class="container-login-form">
+    <form action="{{ $routeForm }}" method="POST" class="container-login-form" id="{{$id}}">
         @csrf
         {{$dataCart}}
         <label class="container-login__label">Email</label>

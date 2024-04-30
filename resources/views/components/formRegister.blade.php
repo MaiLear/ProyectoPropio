@@ -1,7 +1,7 @@
 @props(['divImage'=>'', 'lastnameInput'=>'','routeLogin','routeSaveData'])
 <div class="container-register">
     {{$divImage}}
-    <form action="{{ $routeSaveData }}" method="POST" class="container-register-form">
+    <form action="{{ $routeSaveData }}" method="POST" class="container-register-form" id="form-admin-register">
         @csrf
         <h1 class="container-register-form__title">Sign in</h1>
         @if(session('msg'))

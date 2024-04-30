@@ -1,5 +1,5 @@
 @extends('layouts.customer_layout')
-@section('title', 'Register')
+@section('title', 'Customer Register')
 
 @section('style')
 <link rel="stylesheet" href="{{asset('css/customer/register.css')}}">

@@ -1,9 +1,11 @@
 <main class="conteiner-shop">
     <h1 class="conteiner-shop__title">Feactured Products</h1>
     <p class="conteiner-shop__title conteiner-shop__title--light">Summer Collection New Morden Design</p>
-    <section class="conteiner-shop-products" data-products="{{ json_encode($data) }}" data-news="{{ json_encode($newProducts) }}">
+    <section class="conteiner-shop-products">
 
     </section>
+    <button class="btn btn-link mr-5">Ver mas</button>
+
     <div class="conteiner-shop-img-offert">
         <div class="conteiner-shop-img-offert-content">
             <p class="conteiner-shop-img-offert-content__text">Repair Services</p>

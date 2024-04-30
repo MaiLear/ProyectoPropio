@@ -14,6 +14,7 @@
     <img class="logo" src="{{asset('img/logoImg.png')}}">
     @yield('body')
     <script src='{{asset('js/customer/login.js')}}'></script>  
+    <script src='{{asset('js/helpers/formCustomer.js')}}'></script>  
     {{-- <script src='{{asset('js/main.js')}}'></script>   --}}
 </body>
 </html>

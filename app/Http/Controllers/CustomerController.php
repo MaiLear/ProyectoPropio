@@ -7,7 +7,6 @@ use App\Http\Requests\StoreRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -16,10 +15,30 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        session_start();
+    }
+
     public function index(Request $request)
     {
+        // $token = header('Authorization') ?? '';
+        // if (!$token) return to_route('admin.login');
+        // $validateTokenResponse = $this->validateToken($token);
+        // if ($validateTokenResponse['status'] == 500) return to_route('admin.login');
         $url = env('URL_SERVER_API');
         $response = Http::get($url . '/customers', [
+            'value' => $request->search
+        ]);
+        $dataCustomer = $response->json();
+        return view('admin.customer', compact('dataCustomer'));
+    }
+
+
+    public function getFilterCustomer(Request $request)
+    {
+        $url = env('URL_SERVER_API');
+        $response = Http::get($url . '/filtercustomers', [
             'value' => $request->search
         ]);
         $dataCustomer = $response->json();
@@ -73,18 +92,46 @@ class CustomerController extends Controller
 
     public function authenticate(CustomerRequest $request)
     {
-        if (Auth::guard('customer')->attempt($request->only(['email', 'password']))) {
-            $request->session()->regenerate();
-            $usuario = Auth::user();
-            $url = env("URL_SERVER_API");
-            Http::post($url."/cart/store",[
-                "cart" => $request->dataCart,
-                "email" => $request->email
-            ]);
-            return view('index', compact('usuario'));
-        } else {
-            return view('customer.customer_login');
+        $url = env("URL_SERVER_API");
+
+        $response = Http::post($url . '/customers/authenticate', [
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        // return $request;
+        if ($request->product_id && $response['token']) {
+            $productIdArray = explode(',',  rtrim($request->product_id, ','));
+            $priceArray = explode(',', rtrim($request->price, ','));
+            $quantityArray = explode(',', rtrim($request->quantity, ','));
+            foreach ($productIdArray as $key => $value) {
+                $request->pruduct_id = $value;
+                $request->price = $priceArray[$key];
+                $request->quantity = $quantityArray[$key];
+                $data = Http::withToken($response['token'])->post($url . '/presales/store', [
+                    'product_id' => $request->pruduct_id,
+                    'quantity' => $request->quantity,
+                    'price' => $request->price
+                ]);
+            }
         }
+        // return $response;
+
+        if ($response["status"] == 500 || isset($data) && $data["status"] == 500) {
+            $msg = $response["msg"];
+            return to_route('customer.login')->with('msg');
+        }
+        $customerToken = $response['token'];
+        session()->put('customer', $response['user']);
+        return view('shop', compact('customerToken'));
+    }
+
+
+    public function logout()
+    {
+        $url = env("URL_SERVER_API");
+        $response = Http::get($url . '/customers/logout');
+        session()->flush();
+        return to_route('customer.shop');
     }
 
 
@@ -147,23 +194,16 @@ class CustomerController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::delete($url . "/customers/{$idCustomer}");
         $msg = $response['msg'];
-        return to_route('customer.index')->with('msg', $msg);
+        return to_route('admin.customer.index')->with('msg', $msg);
     }
 
     public function shop()
     {
-        $url = env('URL_SERVER_API');
-        $response = Http::get($url . '/products');
-        $data = $response['products'];
-        $data = $data["data"];
-        $newProducts = $response['newProducts'];
-        return view('shop', compact('data', 'newProducts'));
+        return view('shop');
     }
 
     public function login()
     {
         return view('customer.customer_login');
     }
-
-    
 }

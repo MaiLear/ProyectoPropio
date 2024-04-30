@@ -1,4 +1,4 @@
-import { showProduct } from "../helperShop.js";
+import { showProduct } from "../helpers/helperShop.js";
 
 let templateCart = document.getElementById("template-cart").content;
 let containerViewCart = document.getElementById("container-products-cart");
@@ -6,8 +6,6 @@ let containerViewCart = document.getElementById("container-products-cart");
 let storeCart = JSON.parse(localStorage.getItem("cart"));
 
 // console.log(storeCart);
-
-
 
 document.addEventListener("click", (e) => {
     if (e.target.matches("#quantity-increment__btn")) {

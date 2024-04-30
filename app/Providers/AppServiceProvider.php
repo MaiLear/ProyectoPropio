@@ -26,8 +26,12 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrapFive();
 
-        View::composer('*', function ($view) {
-            $view->with('userAdmin', auth('admin')->user());
+        View::composer(['shop'], function ($view) {
+            $view->with('customer', session()->get('customer'));
+        });
+
+        View::composer(['admin.products', 'admin.admin_index', 'admin.customer', 'admin.edit_products'], function ($view) {
+            $view->with('admin', session()->get('admin'));
         });
     }
 }

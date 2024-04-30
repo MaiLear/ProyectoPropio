@@ -1,30 +1,31 @@
 @props(['title', 'valueMethod'=>'', 'response'=>'', 'nameCategory' ,'classInactive', 'valueAction'])
 
 <h1 class="title-products">{{$title}}</h1>
-<form class="container-principal-form" action="{{$valueAction}}"  method="post" enctype="multipart/form-data">
+<form class="row row-cols-1 w-50" action="{{$valueAction}}"  method="post" enctype="multipart/form-data">
     @csrf
     @method($valueMethod)
     {{$slot}}
-    <label class="container-principal-form__label">Name
-        <input class="container-principal-form__items" type="text" name="name" required placeholder="Ingrese el nombre del producto" value="{{$response['name'] ?? ''}}">
+    <label class="form-label">Name
+        <input class="form-control" type="text" name="name" required placeholder="Ingrese el nombre del producto" value="{{$response['name'] ?? ''}}">
     </label>
-    <label class="container-principal-form__label">clothing brand
-        <input class="container-principal-form__items" type="text" name="brand" required placeholder="Ingrese el nombre del producto" value="{{$response['brand'] ?? ''}}">
+    <label class="form-label">clothing brand
+        <input class="form-control" type="text" name="brand" required placeholder="Ingrese el nombre del producto" value="{{$response['brand'] ?? ''}}">
     </label>
-    <label class="container-principal-form__label">Price
-        <input type="number" name="unit_price" class="container-principal-form__items" value="{{$response['unit_price']?? ''}}">
+    <label class="form-label">Price
+        <input type="number" name="unit_price" class="form-control" value="{{$response['unit_price']?? ''}}">
     </label>
-    <label class="container-principal-form__label">Stock
-        <input type="number" name="stock" class="container-principal-form__items" value="{{$response['stock']?? ''}}">
+    <label class="form-label">Stock
+        <input type="number" name="stock" class="form-control" value="{{$response['stock']?? ''}}">
     </label>
-    <label class="container-principal-form__label">Category
-        <input type="text" name="category" class="container-principal-form__items" value="{{$nameCategory ?? ''}}">
+    <label class="form-label">Category
+        <input type="text" name="category" class="form-control" value="{{$nameCategory ?? ''}}">
     </label>
-    <div>
-        <input type="checkbox" name="new_product" class="{{$classInactive ?? ''}}"><span class="container-principal-form__text--small">New product</span>
-    </div>
-    <input type="file" name="img" accept="image/*">
-    <input type="submit" value="Enviar" class="container-principal-form__items container-principal-form__items--purple">
+    <label class="form-check-label {{$classInactive ?? ''}}">
+        <input type="checkbox" name="new_product" class="form-check-input">
+        <span>New Product</span>
+    </label>
+    <input type="file" name="img" accept="image/*" class="form-control">
+    <input type="submit" value="Enviar" class="btn btn-success mt-2">
     @if (count($errors)> 0)
     <ul>
         @foreach($errors->all() as $error)

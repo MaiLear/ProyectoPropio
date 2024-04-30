@@ -5,6 +5,20 @@
 
 @section('body')
 
-{{$userAdmin ?? ''}}
+@isset($adminToken)
+<h2>{{$adminToken}}</h2>
+@endisset
+
+@endsection
+
+@section('scripts')
+@isset($adminToken)
+<script> 
+    window.localStorage.setItem('adminToken',`{{$adminToken}}`)
+    </script>
+@endisset
+
+
+
 
 @endsection

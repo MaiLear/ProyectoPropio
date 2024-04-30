@@ -3,25 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function index(int $quantity, $paginate = false)
     {
-        $url = env('URL_SERVER_API');
-        $values = Http::get($url . '/products', [
-            'value' =>  $request->search
+    }
+
+    public function getOldProducts(int $quantity, Request $request)
+    {
+        $oldProductsUrl = env('URL_SERVER_API') . "/$quantity/products";
+        $request = new Request();
+        try {
+            $oldProducts = $request->search ? Http::get($oldProductsUrl, [
+                'value' =>  $request->search
+            ]) :  Http::get($oldProductsUrl);
+            return $oldProducts;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function getNewProducts(int $quantity)
+    {
+        $newProductsUrl = env('URL_SERVER_API') . "/$quantity/newproducts";
+        try {
+            $newProducts = Http::get($newProductsUrl);
+            return $newProducts;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    public function getAllProducts()
+    {
+        $url = env('URL_SERVER_API') . "/allproducts";
+        try {
+            $response = Http::get($url);
+            return $response;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    public function getFilterProducts(Request $request)
+    {
+        $url = env('URL_SERVER_API') . "/filterproducts";
+        $data = Http::get($url, [
+            'value' => $request->search
         ]);
-        $data = $values['products'];
-        $newProducts = $values['newProducts'];
-        $data = $this->paginate($data, 2);
-        $data->withPath('/products');
-        return view('admin.products', compact('data', 'newProducts'));
+        $data = $data->json();
+        return view('admin.products', compact('data'));
     }
 
     public function store(ProductRequest $request)
@@ -72,10 +113,11 @@ class ProductController extends Controller
             'unit_price' => $request->unit_price,
             'stock' => $request->stock,
             'category' => $request->category,
-            'img' => $urlImage ?? ''
+            'img' => $urlImage ?? '',
+            'new_product' => $request->new_product
         ]);
         $msg = $response['msg'];
-        return to_route('products.create')->with('msg', $msg);
+        return to_route('admin.products')->with('msg', $msg);
     }
 
     public function destroy($idProduct)
@@ -91,14 +133,14 @@ class ProductController extends Controller
         $url = env('URL_SERVER_API');
         $response = Http::get($url . "/products/active/{$idProduct}");
         $msg = $response['msg'];
-        return to_route('products.index')->with('msg', $msg);
+        return to_route('admin.products')->with('msg', $msg);
     }
 
     public function inactive($idProduct)
     {
         $url = env('URL_SERVER_API');
         $response = Http::get($url . "/products/status/{$idProduct}");
-        return to_route('products.index');
+        return to_route('admin.products');
     }
 
 
@@ -114,7 +156,7 @@ class ProductController extends Controller
 
     public function cart()
     {
-        
+
         return view('shop_cart');
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +11,15 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AdminAuthController extends Controller
 {
+
+    public function __construct()
+    {
+        session_start();
+    }
 
     public function login()
     {
@@ -23,25 +28,30 @@ class AdminAuthController extends Controller
 
     public function authenticate(AdminRequest $request)
     {
-        //Para utilizar Auth::attempt($valor) con un modelo diferene a User
-        //  debe crear un guardia en la carpeta App\Config\auth.php
-        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
-            $request->session()->regenerate();
-            $admin = auth('admin')->user();
-            // Auth::login($admin);
-            return to_route('admin.index');
-        } else {
-            return view('admin.admin_login');
+        $url = env("URL_SERVER_API");
+        $response = Http::post($url . '/admins/authenticate', [
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        if ($response['status'] == 500) {
+            return view('admin.admin_login', compact($response['msg']));
         }
+        $adminToken = $response['token'];
+        session()->put('admin_authenticate', true);
+        session()->put('admin', $response['user']);
+        return view('admin.admin_index', compact('adminToken'));
     }
 
 
-    public function logout(Request $request)
+    public function logout()
     {
-        Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return to_route('admin.login');
+        // if (!isset($_SESSION['token'])) return to_route('admin.login');x 
+        $url = env("URL_SERVER_API");
+        $response = Http::get($url . '/admins/logout');
+        session()->flush();
+        return $response['status'] == 500
+            ? $response
+            : to_route('admin.login');
     }
 
     public function forgotPassword()

@@ -14,7 +14,22 @@
             <div id="shoppingcartnotification" class="bg-danger rounded-pill position-absolute text-center text-light" style="top: -10px; right: 21px; width:18px">.</div>
         </li>
         <li class="main-menu-list__item ms-5">
-            <a href="{{route('customer.login')}}"><img src="{{asset('img/customer.png')}}"></a>
+            @if(isset($customer))
+            <div class="dropdown">
+             <button class="btn btn-dark" data-bs-toggle="dropdown">{{ucfirst($customer['first_name']).' '.ucfirst($customer['last_name'])}}</button>
+    
+                <ul class="dropdown-menu">
+                    <li>
+                        <h6 class="dropdown-header">Opciones de usuario</h6></li>
+                    <li>
+                    <li class="dropdown-item"><a href="{{route('customer.logout')}}">Cerrar sesión</a></li>
+                </ul>
+            </div>
+            @else
+            <a href="{{route('customer.login')}}" class="btn btn-primary">Iniciar sesión</a>
+                
+            @endif
+            {{-- <a href="{{route('customer.login')}}"><img src="{{asset('img/customer.png')}}"></a> --}}
         </li>
         <li id="shoppingcartcard" class="position-absolute d-none" style="right: 100px;">
             <div class="card" style="width: 20rem;">

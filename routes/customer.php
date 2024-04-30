@@ -24,6 +24,7 @@ Route::get('/shop', [CustomerController::class, 'shop'])->name('customer.shop');
 Route::get('/login', [CustomerController::class, 'login'])->name('customer.login');
 Route::post('/login', [CustomerController::class, 'authenticate'])->name('customer.authenticate');
 
+Route::get('/logout', [CustomerController::class, 'logout'])->name('customer.logout');
 
 
 Route::get('/forgot-password', [CustomerController::class, 'forgotPassword'])->name('customer.forgotpassword');

@@ -1,5 +1,5 @@
 @extends('layouts.admin_layout')
-@section('title', 'ADMIN container-register')
+@section('title', 'Admin Register')
 
 @section('body')
 

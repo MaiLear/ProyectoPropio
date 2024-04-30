@@ -3,6 +3,7 @@
 
 @section('body')
 
+
 @include('layouts.partials.main_shop')
 
 <x-templateShopCart>
@@ -17,11 +18,19 @@
             </div>
         </div>
     </div>
+    
 </x-templateShopCart>
+
 
 
 @endsection
 
+
 @push('js')
+@isset($customerToken)
+<script>
+    window.localStorage.setItem('customerToken',"{{$customerToken}}");
+</script>
+@endisset
 <script type="module" src="{{asset('js/shop/shop.js') }}"></script>
 @endpush
